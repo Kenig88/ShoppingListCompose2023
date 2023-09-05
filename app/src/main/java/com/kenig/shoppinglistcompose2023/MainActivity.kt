@@ -3,13 +3,6 @@ package com.kenig.shoppinglistcompose2023
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.kenig.shoppinglistcompose2023.ui.theme.ShoppingListCompose2023Theme
 
 class MainActivity : ComponentActivity() {
@@ -17,13 +10,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ShoppingListCompose2023Theme {
-                Text()
             }
         }
     }
 }
 
-@Composable
-fun Text(){
-    Text(text = "Hello")
-}
