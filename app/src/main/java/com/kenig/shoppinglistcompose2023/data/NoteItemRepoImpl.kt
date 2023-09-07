@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 class NoteItemRepoImpl(private val dao: NoteDao) : NoteRepository {
     override suspend fun insertItem(item: NoteItem) {
-      dao.insertItem(item)
+        dao.insertItem(item)
     }
 
     override suspend fun deleteItem(item: NoteItem) {
