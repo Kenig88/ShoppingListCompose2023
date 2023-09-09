@@ -9,6 +9,6 @@ data class ShoppingListItem(
     val id: Int? = null,
     val name: String,
     val time: String,
-    val allItemsCount: Int,
-    val allSelectedItemsCount: Int
+    val allItemsCount: Int, //это сколько всего элементов
+    val allSelectedItemsCount: Int //это сколько всего отмеченных элементов
 )
