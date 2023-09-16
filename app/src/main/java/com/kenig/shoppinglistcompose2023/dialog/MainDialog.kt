@@ -1,13 +1,16 @@
 package com.kenig.shoppinglistcompose2023.dialog
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import android.widget.Toast
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -15,11 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.ui.theme.DarkText
-import com.kenig.shoppinglistcompose2023.ui.theme.Red
 import com.kenig.shoppinglistcompose2023.ui.theme.RedDialog
 
 @Composable
 fun MainDialog(dialogController: DialogController) {
+    val context = LocalContext.current
+
     if (dialogController.openDialog.value) {
         AlertDialog(
             onDismissRequest = {
@@ -66,7 +70,19 @@ fun MainDialog(dialogController: DialogController) {
             confirmButton = {
                 Button(
                     onClick = {
-                        dialogController.onDialogEvent(DialogEvent.OnConfirmButton)
+                        if (dialogController.editableText.value.isNotEmpty() &&
+                            dialogController.showEditableText.value
+                        ) {
+                            dialogController.onDialogEvent(DialogEvent.OnConfirmButton)
+                        } else if (dialogController.showEditableText.value.not()) {
+                            dialogController.onDialogEvent(DialogEvent.OnConfirmButton)
+                        } else {
+                            Toast.makeText(
+                                context,
+                                (R.string.dialog_text_field_is_empty),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(Color.Black)
                 ) {

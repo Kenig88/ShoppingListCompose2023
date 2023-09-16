@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">ShoppingListCompose2023</string>
+    <string name="app_name">Shopping list</string>
     <string name="dialog_delete">Delete this item?</string>
     <string name="dialog_title_saveEdit">List name:</string>
     <string name="dialog_confirm_button">OK</string>
     <string name="dialog_cancel_button">Cancel</string>
     <string name="dialog_label">List name: </string>
+    <string name="dialog_text_field_is_empty">The text field must be filled in.</string>
 </resources>

@@ -27,7 +27,7 @@ fun BottomNav(navController: NavHostController) {
             val currentRoute = navBackStackEntry?.destination?.route
 
             BottomNavigationItem(
-                selected = currentRoute == bottomNavItem.route,
+                selected = currentRoute == bottomNavItem.route, //currentRoute - это экран который уже выбран
                 onClick = {
                     navController.navigate(bottomNavItem.route)
                 },

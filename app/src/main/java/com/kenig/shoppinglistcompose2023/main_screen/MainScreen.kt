@@ -8,15 +8,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.kenig.shoppinglistcompose2023.R
-import com.kenig.shoppinglistcompose2023.dialog.DialogController
 import com.kenig.shoppinglistcompose2023.dialog.MainDialog
 import com.kenig.shoppinglistcompose2023.navigation.NavigationGraph
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    mainNavHostController: NavHostController,
+    viewModel: MainScreenViewModel = hiltViewModel()
+) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -26,7 +30,7 @@ fun MainScreen() {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-
+                    viewModel.onEvent(MainScreenEvent.OnShowEditDialog)
                 }
             ) {
                 Icon(
@@ -40,6 +44,9 @@ fun MainScreen() {
         floatingActionButtonPosition = FabPosition.End, //расположение FAB на экране (центер, конец и тд)
         isFloatingActionButtonDocked = false //расположение FAB между bottom-menu и экраном
     ) {
-        NavigationGraph(navController)
+        NavigationGraph(navController) { route ->
+            mainNavHostController.navigate(route)
+        }
+        MainDialog(dialogController = viewModel)
     }
 }

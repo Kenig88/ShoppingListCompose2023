@@ -1,7 +1,6 @@
 package com.kenig.shoppinglistcompose2023.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,13 +10,15 @@ import com.kenig.shoppinglistcompose2023.shopping_list_screen.ShoppingListScreen
 import com.kenig.shoppinglistcompose2023.utils.Routes
 
 @Composable
-fun NavigationGraph(navController: NavHostController) {
+fun NavigationGraph(navController: NavHostController, onNavigate: (String) -> Unit) {
     NavHost(
         navController = navController,
         startDestination = Routes.SHOPPING_LIST
     ) {
         composable(Routes.SHOPPING_LIST) {
-            ShoppingListScreen()
+            ShoppingListScreen() { route ->
+                onNavigate(route)
+            }
         }
         composable(Routes.NOTE_LIST) {
             NoteListScreen()
@@ -27,4 +28,3 @@ fun NavigationGraph(navController: NavHostController) {
         }
     }
 }
-
