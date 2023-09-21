@@ -6,4 +6,6 @@
     <string name="dialog_cancel_button">Cancel</string>
     <string name="dialog_label">List name: </string>
     <string name="dialog_text_field_is_empty">The text field must be filled in.</string>
+    <string name="add_item_label_text_field">New item:</string>
+    <string name="item_empty">Empty</string>
 </resources>
