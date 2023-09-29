@@ -8,8 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,12 +19,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.dialog.MainDialog
 import com.kenig.shoppinglistcompose2023.ui.theme.DarkText
 import com.kenig.shoppinglistcompose2023.ui.theme.GrayLight
-import kotlinx.coroutines.launch
+import com.kenig.shoppinglistcompose2023.utils.UiEvent
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -32,22 +31,23 @@ fun AddItemScreen(
     viewModel: AddItemViewModel = hiltViewModel(),
 ) {
     val scaffoldState = rememberScaffoldState() // Чтобы запоминал состояния Scaffold
-    val coroutineScope = rememberCoroutineScope()
     val itemsList = viewModel.itemsList?.collectAsState(initial = emptyList())
+
+    LaunchedEffect(key1 = true) { //запускается 1 раз при запуске приложения
+        viewModel.uiEvent.collect { uiEven -> //collect -> эта функция ждёт когда туда что либо передам
+            when (uiEven) {
+                is UiEvent.ShowSnackBar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        uiEven.message
+                    )
+                }
+                else -> {}
+            }
+        }
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
-        snackbarHost = {
-            fun showSnackBar() {
-                coroutineScope.launch {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = "hello",
-                        actionLabel = "woedld",
-                        duration = SnackbarDuration.Short
-                    )
-                }
-            }
-        }
     ) {
         Column(
             modifier = Modifier

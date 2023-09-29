@@ -1,17 +1,22 @@
 package com.kenig.shoppinglistcompose2023.add_item_screen
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.data.AddItem
 import com.kenig.shoppinglistcompose2023.data.AddItemRepository
 import com.kenig.shoppinglistcompose2023.data.ShoppingListItem
 import com.kenig.shoppinglistcompose2023.dialog.DialogController
 import com.kenig.shoppinglistcompose2023.dialog.DialogEvent
+import com.kenig.shoppinglistcompose2023.utils.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,6 +31,10 @@ class AddItemViewModel @Inject constructor(
     var listId: Int = -1 // чтобы listId не был Null
     var shoppingListItem: ShoppingListItem? = null
 
+    private val _uiEvent = Channel<UiEvent>() //передатчик класса UiEvent() через Channel
+    val uiEvent = _uiEvent.receiveAsFlow() //приёмник UiEvent
+
+
     init { //запускается когда инициализируется класс AddItemViewModel
         listId = savedStateHandle.get<String>("listId")?.toInt()!!
         itemsList = repository.getAllItemsById(listId)
@@ -39,13 +48,10 @@ class AddItemViewModel @Inject constructor(
 
     override var dialogTitle = mutableStateOf("Edit name: ")
         private set
-
     override var editableText = mutableStateOf("")
         private set
-
     override var openDialog = mutableStateOf(false)
         private set
-
     override var showEditableText = mutableStateOf(true)
         private set
 
@@ -79,6 +85,17 @@ class AddItemViewModel @Inject constructor(
             is AddItemEvent.OnItemSave -> {
                 viewModelScope.launch {
                     if (listId == -1) return@launch
+                    if (addItem != null) { // При редактировании
+                        if (addItem!!.name.isEmpty()) {
+                            sendUiEvent(UiEvent.ShowSnackBar("The text field must be filled in."))
+                            return@launch
+                        }
+                    } else {
+                        if (itemText.value.isEmpty()) {
+                            sendUiEvent(UiEvent.ShowSnackBar("The text field must be filled in."))
+                            return@launch
+                        }
+                    }
                     repository.insertItem(
                         AddItem(
                             addItem?.id,
@@ -125,6 +142,12 @@ class AddItemViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    private fun sendUiEvent(event: UiEvent) { // это чтобы отправлять на экран события класса UiEvent
+        viewModelScope.launch {
+            _uiEvent.send(event)
         }
     }
 }

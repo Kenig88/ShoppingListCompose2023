@@ -53,6 +53,7 @@ fun ShoppingListScreen(
         }
     }
     MainDialog(dialogController = viewModel)
+
     if (itemsList.value.isEmpty()) {
         Text(
             modifier = Modifier

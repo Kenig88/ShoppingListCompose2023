@@ -7,7 +7,11 @@ import com.kenig.shoppinglistcompose2023.data.ShoppingListItem
 import com.kenig.shoppinglistcompose2023.data.ShoppingListRepository
 import com.kenig.shoppinglistcompose2023.dialog.DialogController
 import com.kenig.shoppinglistcompose2023.dialog.DialogEvent
+import com.kenig.shoppinglistcompose2023.utils.Routes
+import com.kenig.shoppinglistcompose2023.utils.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,15 +20,18 @@ class MainScreenViewModel @Inject constructor(
     val repository: ShoppingListRepository
 ) : ViewModel(), DialogController {
 
+    private val _uiEvent = Channel<UiEvent>() //передатчик класса UiEvent() через Channel
+    val uiEvent = _uiEvent.receiveAsFlow() //приёмник UiEvent
+
+    var showFloatingButton = mutableStateOf(true)
+        private set
+
     override var dialogTitle = mutableStateOf("List name: ") /////изменить в ресурсах!!!
         private set
-
     override var editableText = mutableStateOf("")
         private set
-
     override var openDialog = mutableStateOf(false)
         private set
-
     override var showEditableText = mutableStateOf(true)
         private set
 
@@ -63,6 +70,24 @@ class MainScreenViewModel @Inject constructor(
                     )
                 }
             }
+            is MainScreenEvent.Navigate -> {
+                sendUiEvent(UiEvent.Navigate(event.route))
+                showFloatingButton.value =
+                    if (event.route == Routes.SETTINGS) { // чтобы не показывать кнопку при экране Settings
+                        false // не показывает кнопку
+                    } else {
+                        true //показывает на других экранах
+                    }
+            }
+            is MainScreenEvent.MainNavigate -> {
+                sendUiEvent(UiEvent.MainNavigate(event.route))
+            }
+        }
+    }
+
+    private fun sendUiEvent(event: UiEvent) { // это чтобы отправлять на экран события класса UiEvent
+        viewModelScope.launch {
+            _uiEvent.send(event)
         }
     }
 }

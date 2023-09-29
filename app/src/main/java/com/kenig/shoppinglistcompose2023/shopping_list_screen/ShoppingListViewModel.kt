@@ -20,19 +20,16 @@ class ShoppingListViewModel @Inject constructor(
 ) : ViewModel(), DialogController {
     var listItem: ShoppingListItem? = null
     val list = repository.getAllItems()
-    private val _uiEvent = Channel<UiEvent>() //передатчик класса UiEvent() через Channel
-    val uiEvent = _uiEvent.receiveAsFlow() //приёмник
 
+    private val _uiEvent = Channel<UiEvent>() //передатчик класса UiEvent() через Channel
+    val uiEvent = _uiEvent.receiveAsFlow() //приёмник UiEvent
 
     override var dialogTitle = mutableStateOf("")
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
-
     override var editableText = mutableStateOf("")
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
-
     override var openDialog = mutableStateOf(false)
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
-
     override var showEditableText = mutableStateOf(false)
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
 
