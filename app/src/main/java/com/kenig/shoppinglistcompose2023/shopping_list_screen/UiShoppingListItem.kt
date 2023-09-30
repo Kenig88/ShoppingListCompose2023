@@ -42,10 +42,9 @@ fun UiShoppingListItem(
                 }
                 .clickable {
                     onEvent(
-                        ShoppingListEvent
-                            .OnItemClick(
-                                Routes.ADD_ITEM + "/${item.id}" //передаю id конкретного айтема в MainNavGraph
-                            )
+                        ShoppingListEvent.OnItemClick(
+                            Routes.ADD_ITEM + "/${item.id}" //передаю id конкретного айтема в MainNavGraph
+                        )
                     )
                 },
             shape = RoundedCornerShape(10.dp)

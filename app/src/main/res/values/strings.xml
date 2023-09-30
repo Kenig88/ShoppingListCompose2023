@@ -8,4 +8,6 @@
     <string name="dialog_text_field_is_empty">The text field must be filled in.</string>
     <string name="add_item_label_text_field">New item:</string>
     <string name="item_empty">Empty</string>
+    <string name="text_field_title">Title:</string>
+    <string name="text_field_description">Description:</string>
 </resources>
