@@ -1,6 +1,7 @@
 package com.kenig.shoppinglistcompose2023.shopping_list_screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,16 +13,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.kenig.shoppinglistcompose2023.R
+import com.kenig.shoppinglistcompose2023.data.ShoppingListItem
 import com.kenig.shoppinglistcompose2023.ui.theme.*
+import com.kenig.shoppinglistcompose2023.utils.Routes
 
-@Preview(showBackground = true)
 @Composable
-fun UiShoppingListItem() {
+fun UiShoppingListItem(
+    item: ShoppingListItem,
+    onEvent: (ShoppingListEvent) -> Unit
+) {
     ConstraintLayout(
         modifier = Modifier.padding(start = 3.dp, end = 3.dp, top = 1.dp) // top!!??????
     ) {
@@ -35,6 +39,13 @@ fun UiShoppingListItem() {
                     bottom.linkTo(parent.bottom)
                     end.linkTo(parent.end)
                     start.linkTo(parent.start)
+                }
+                .clickable {
+                    onEvent(
+                        ShoppingListEvent.OnItemClick(
+                            Routes.ADD_ITEM + "/${item.id}" //передаю id конкретного айтема в MainNavGraph
+                        )
+                    )
                 },
             shape = RoundedCornerShape(10.dp)
         ) {
@@ -43,27 +54,32 @@ fun UiShoppingListItem() {
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Text(
-                    text = "List 1",
+                Text( //заголовок
+                    text = item.name,
                     color = DarkText,
                     fontWeight = Bold,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    maxLines = 1
                 )
                 Spacer(modifier = Modifier.height(3.dp)) //либо использовать Padding у текста снизу
-                Text(
-                    text = "07.09.2023 23:53",
+                Text( //время
+                    text = item.time,
                     color = LightText,
                     fontSize = 13.sp
                 )
                 LinearProgressIndicator(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 5.dp) //либо использовать Spacer над прогресс-баром
+                        .padding(top = 5.dp), //либо использовать Spacer над прогресс-баром
+                    progress = 0.5f
                 )
             }
         }
-        IconButton(
-            onClick = { /*TODO*/ },
+
+        IconButton( //deleteButton
+            onClick = {
+                onEvent(ShoppingListEvent.OnShowDeleteDialog(item))
+            },
             modifier = Modifier
                 .constrainAs(deleteButton) {
                     top.linkTo(card.top)
@@ -72,7 +88,6 @@ fun UiShoppingListItem() {
                 }
                 .padding(5.dp)
                 .size(30.dp)
-
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_delete),
@@ -84,8 +99,11 @@ fun UiShoppingListItem() {
                 tint = Color.White
             )
         }
-        IconButton(
-            onClick = { /*TODO*/ },
+
+        IconButton( //editButton
+            onClick = {
+                onEvent(ShoppingListEvent.OnShowEditDialog(item))
+            },
             modifier = Modifier
                 .constrainAs(editButton) {
                     top.linkTo(card.top)
@@ -105,6 +123,7 @@ fun UiShoppingListItem() {
                 tint = Color.White
             )
         }
+
         Card(
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier
@@ -115,10 +134,9 @@ fun UiShoppingListItem() {
                 }
                 .padding(end = 5.dp),
             backgroundColor = BlueLight
-
         ) {
             Text(
-                text = "2/2",
+                text = "${item.allItemsCount}/${item.allSelectedItemsCount}",
                 color = Color.White,
                 modifier = Modifier.padding(5.dp),
                 textAlign = TextAlign.Center,

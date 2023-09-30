@@ -1,6 +1,7 @@
 package com.kenig.shoppinglistcompose2023.utils
 
 object Routes {
+    const val MAIN_SCREEN = "main_screen"
     const val SHOPPING_LIST = "shopping_list"
     const val NOTE_LIST = "note_list"
     const val SETTINGS = "settings"

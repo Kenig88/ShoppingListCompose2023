@@ -5,16 +5,16 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.kenig.shoppinglistcompose2023.ui.theme.BlueLight
 import com.kenig.shoppinglistcompose2023.ui.theme.GrayLight
 
 @Composable
-fun BottomNav(navController: NavHostController) {
+fun BottomNav(
+    currentRoute: String?,
+    onNavigate: (String) -> Unit
+) {
     val listItems = listOf(
         BottomNavItem.ListItem,
         BottomNavItem.NoteItem,
@@ -23,13 +23,11 @@ fun BottomNav(navController: NavHostController) {
 
     BottomNavigation(backgroundColor = Color.White) {
         listItems.forEach { bottomNavItem ->
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
 
             BottomNavigationItem(
-                selected = currentRoute == bottomNavItem.route,
+                selected = currentRoute == bottomNavItem.route, //currentRoute - это экран который уже выбран
                 onClick = {
-                    navController.navigate(bottomNavItem.route)
+                    onNavigate(bottomNavItem.route)
                 },
                 icon = {
                     Icon(painter = painterResource(bottomNavItem.iconId), contentDescription = null)
