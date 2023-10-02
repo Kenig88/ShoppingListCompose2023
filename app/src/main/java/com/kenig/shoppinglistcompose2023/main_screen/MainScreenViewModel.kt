@@ -9,6 +9,7 @@ import com.kenig.shoppinglistcompose2023.dialog.DialogController
 import com.kenig.shoppinglistcompose2023.dialog.DialogEvent
 import com.kenig.shoppinglistcompose2023.utils.Routes
 import com.kenig.shoppinglistcompose2023.utils.UiEvent
+import com.kenig.shoppinglistcompose2023.utils.getCurrentTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -67,7 +68,7 @@ class MainScreenViewModel @Inject constructor(
                         ShoppingListItem(
                             null,
                             editableText.value,
-                            "13.09.2023 16:50",
+                            getCurrentTime(),
                             0,
                             0
                         )

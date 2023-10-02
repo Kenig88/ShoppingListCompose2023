@@ -19,6 +19,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.data.ShoppingListItem
 import com.kenig.shoppinglistcompose2023.ui.theme.*
+import com.kenig.shoppinglistcompose2023.utils.ProgressHelper
 import com.kenig.shoppinglistcompose2023.utils.Routes
 
 @Composable
@@ -71,7 +72,10 @@ fun UiShoppingListItem(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 5.dp), //либо использовать Spacer над прогресс-баром
-                    progress = 0.5f
+                    progress = ProgressHelper.getProgress(
+                        item.allItemsCount,
+                        item.allSelectedItemsCount
+                    )
                 )
             }
         }
