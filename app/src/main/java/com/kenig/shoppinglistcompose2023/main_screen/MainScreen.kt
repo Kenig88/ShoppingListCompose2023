@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.dialog.MainDialog
 import com.kenig.shoppinglistcompose2023.navigation.NavigationGraph
+import com.kenig.shoppinglistcompose2023.utils.Routes
 import com.kenig.shoppinglistcompose2023.utils.UiEvent
 import kotlinx.coroutines.flow.collect
 
@@ -54,7 +55,11 @@ fun MainScreen(
             if (viewModel.showFloatingButton.value)
                 FloatingActionButton(
                     onClick = {
-                        viewModel.onEvent(MainScreenEvent.OnShowEditDialog)
+                        viewModel.onEvent(
+                            MainScreenEvent.OnNewItemClick(
+                                currentRoute ?: Routes.SHOPPING_LIST
+                            )
+                        )
                     }
                 ) {
                     Icon(

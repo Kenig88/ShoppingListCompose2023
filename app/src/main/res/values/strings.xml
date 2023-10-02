@@ -10,4 +10,7 @@
     <string name="item_empty">Empty</string>
     <string name="text_field_title">Title:</string>
     <string name="text_field_description">Description:</string>
+    <string name="dialog_delete_note">Delete this note?</string>
+    <string name="snackbar_not_empty">Title can not be empty!</string>
+    <string name="snackbar_undone">Undone</string>
 </resources>

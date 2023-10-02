@@ -54,8 +54,12 @@ class MainScreenViewModel @Inject constructor(
 
     fun onEvent(event: MainScreenEvent) {
         when (event) {
-            is MainScreenEvent.OnShowEditDialog -> {
-                openDialog.value = true
+            is MainScreenEvent.OnNewItemClick -> {
+                if (event.route == Routes.SHOPPING_LIST) {
+                    openDialog.value = true
+                } else {
+                    sendUiEvent(UiEvent.MainNavigate(Routes.NEW_NOTE + "/-1"))
+                }
             }
             is MainScreenEvent.OnItemSave -> {
                 viewModelScope.launch {
