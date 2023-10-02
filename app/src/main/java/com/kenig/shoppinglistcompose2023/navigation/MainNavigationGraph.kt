@@ -20,8 +20,10 @@ fun MainNavigationGraph() {
         composable(Routes.ADD_ITEM + "/{listId}") {  //{listId} -> получаю конкретный item из UiShopList
             AddItemScreen()
         }
-        composable(Routes.NEW_NOTE) {
-            NewNoteScreen()
+        composable(Routes.NEW_NOTE + "/{noteId}") {
+            NewNoteScreen() {
+                navController.popBackStack() //вернусь на экран котором был ранее
+            }
         }
     }
 }

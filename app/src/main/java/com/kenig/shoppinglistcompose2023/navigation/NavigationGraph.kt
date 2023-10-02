@@ -21,7 +21,9 @@ fun NavigationGraph(navController: NavHostController, onNavigate: (String) -> Un
             }
         }
         composable(Routes.NOTE_LIST) {
-            NoteListScreen()
+            NoteListScreen() { route ->
+                onNavigate(route)
+            }
         }
         composable(Routes.SETTINGS) {
             SettingsScreen()
