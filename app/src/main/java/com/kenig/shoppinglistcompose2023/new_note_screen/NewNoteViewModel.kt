@@ -10,6 +10,7 @@ import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.data.NoteItem
 import com.kenig.shoppinglistcompose2023.data.NoteRepository
 import com.kenig.shoppinglistcompose2023.utils.UiEvent
+import com.kenig.shoppinglistcompose2023.utils.getCurrentTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -65,7 +66,7 @@ class NewNoteViewModel @Inject constructor(
                             noteItem?.id,
                             title,
                             description,
-                            "01.10.2023 06:27"
+                            getCurrentTime()
                         )
                     )
                     sendUiEvent(UiEvent.PopBackStack)
