@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kenig.shoppinglistcompose2023.data.ShoppingListItem
 import com.kenig.shoppinglistcompose2023.data.ShoppingListRepository
+import com.kenig.shoppinglistcompose2023.datastore.DataStoreManager
 import com.kenig.shoppinglistcompose2023.dialog.DialogController
 import com.kenig.shoppinglistcompose2023.dialog.DialogEvent
 import com.kenig.shoppinglistcompose2023.utils.UiEvent
@@ -17,13 +18,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShoppingListViewModel @Inject constructor(
-    private val repository: ShoppingListRepository
+    private val repository: ShoppingListRepository,
+    dataStoreManager: DataStoreManager
 ) : ViewModel(), DialogController {
     var listItem: ShoppingListItem? = null
     val list = repository.getAllItems()
 
     private val _uiEvent = Channel<UiEvent>() //передатчик класса UiEvent() через Channel
     val uiEvent = _uiEvent.receiveAsFlow() //приёмник UiEvent
+
+    var titleColor = mutableStateOf("#FF000000")
 
     override var dialogTitle = mutableStateOf("")
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
@@ -33,6 +37,17 @@ class ShoppingListViewModel @Inject constructor(
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
     override var showEditableText = mutableStateOf(false)
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
+
+    init {
+        viewModelScope.launch {
+            dataStoreManager.getStringPreference(
+                DataStoreManager.TITLE_COLOR,
+                "#FF000000"
+            ).collect { color ->
+                titleColor.value = color
+            }
+        }
+    }
 
     override fun onDialogEvent(event: DialogEvent) { //события Диалога на экране ShoppingListScreen
         when (event) {

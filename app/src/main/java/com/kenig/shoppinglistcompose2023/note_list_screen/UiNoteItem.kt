@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -25,6 +26,7 @@ import com.kenig.shoppinglistcompose2023.utils.Routes
 
 @Composable
 fun UiNoteItem(
+    titleColor: String,
     noteItem: NoteItem,
     onEvent: (NoteListEvent) -> Unit
 ) {
@@ -51,7 +53,7 @@ fun UiNoteItem(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                Text( //title
                     modifier = Modifier
                         .padding(top = 5.dp, start = 10.dp)
                         .weight(1f),
@@ -59,9 +61,10 @@ fun UiNoteItem(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = Color(android.graphics.Color.parseColor(titleColor))
                 )
-                Text(
+                Text( //description
                     modifier = Modifier.padding(
                         top = 5.dp,
                         end = 10.dp

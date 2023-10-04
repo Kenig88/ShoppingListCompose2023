@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.data.ShoppingListItem
 import com.kenig.shoppinglistcompose2023.ui.theme.*
@@ -24,8 +25,9 @@ import com.kenig.shoppinglistcompose2023.utils.Routes
 
 @Composable
 fun UiShoppingListItem(
+    titleColor: String,
     item: ShoppingListItem,
-    onEvent: (ShoppingListEvent) -> Unit
+    onEvent: (ShoppingListEvent) -> Unit,
 ) {
     ConstraintLayout(
         modifier = Modifier.padding(start = 3.dp, end = 3.dp, top = 1.dp) // top!!??????
@@ -57,7 +59,7 @@ fun UiShoppingListItem(
             ) {
                 Text( //заголовок
                     text = item.name,
-                    color = DarkText,
+                    color = Color(android.graphics.Color.parseColor(titleColor)),
                     fontWeight = Bold,
                     fontSize = 16.sp,
                     maxLines = 1

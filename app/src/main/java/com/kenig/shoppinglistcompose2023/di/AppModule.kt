@@ -3,6 +3,7 @@ package com.kenig.shoppinglistcompose2023.di
 import android.app.Application
 import androidx.room.Room
 import com.kenig.shoppinglistcompose2023.data.*
+import com.kenig.shoppinglistcompose2023.datastore.DataStoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,5 +39,11 @@ object AppModule {
     @Singleton //создастся только 1 инстанция данного класса
     fun provideNoteRepo(db: MainDb): NoteRepository {
         return NoteItemRepoImpl(db.noteDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataStoreManager(app: Application): DataStoreManager {
+        return DataStoreManager(app)
     }
 }

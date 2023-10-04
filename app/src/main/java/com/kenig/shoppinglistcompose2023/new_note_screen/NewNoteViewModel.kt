@@ -6,9 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.data.NoteItem
 import com.kenig.shoppinglistcompose2023.data.NoteRepository
+import com.kenig.shoppinglistcompose2023.datastore.DataStoreManager
 import com.kenig.shoppinglistcompose2023.utils.UiEvent
 import com.kenig.shoppinglistcompose2023.utils.getCurrentTime
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,14 +20,16 @@ import javax.inject.Inject
 @HiltViewModel
 class NewNoteViewModel @Inject constructor(
     private val repository: NoteRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    dataStoreManager: DataStoreManager
 ) : ViewModel() {
     private val _uiEvent = Channel<UiEvent>() //передатчик класса UiEvent() через Channel
     val uiEvent = _uiEvent.receiveAsFlow() //приёмник UiEvent
 
     private var noteId = -1
-    private var noteItem: NoteItem? =
-        null // если равна Null то создаю новый элемент, если НЕ равна то редактирую уже созданный элемент
+    private var noteItem: NoteItem? = null // если равна Null то создаю новый элемент, если НЕ равна то редактирую уже созданный элемент
+
+    var titleColor = mutableStateOf("#FF000000")
 
     var title by mutableStateOf("")
         private set
@@ -42,6 +44,12 @@ class NewNoteViewModel @Inject constructor(
                     title = noteItem.title
                     description = noteItem.description
                     this@NewNoteViewModel.noteItem = noteItem
+                }
+                dataStoreManager.getStringPreference(
+                    DataStoreManager.TITLE_COLOR,
+                    "#FF000000"
+                ).collect { color ->
+                    titleColor.value = color
                 }
             }
         }
