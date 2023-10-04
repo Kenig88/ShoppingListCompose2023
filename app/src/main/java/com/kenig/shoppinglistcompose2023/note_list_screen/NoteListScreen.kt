@@ -12,16 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.dialog.MainDialog
 import com.kenig.shoppinglistcompose2023.ui.theme.GrayLight
 import com.kenig.shoppinglistcompose2023.ui.theme.LightText
-import com.kenig.shoppinglistcompose2023.ui.theme.Red
 import com.kenig.shoppinglistcompose2023.utils.UiEvent
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -70,7 +67,7 @@ fun NoteListScreen(
                 .background(GrayLight)
         ) {
             items(itemsList.value) { item ->
-                UiNoteItem(item) { event ->
+                UiNoteItem(viewModel.titleColor.value, item) { event ->
                     viewModel.onEvent(event)
                 }
             }

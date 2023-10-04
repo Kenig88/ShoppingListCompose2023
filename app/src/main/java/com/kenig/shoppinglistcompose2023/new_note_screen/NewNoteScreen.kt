@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kenig.shoppinglistcompose2023.R
+import com.kenig.shoppinglistcompose2023.datastore.DataStoreManager
 import com.kenig.shoppinglistcompose2023.ui.theme.BlueLight
 import com.kenig.shoppinglistcompose2023.ui.theme.DarkText
 import com.kenig.shoppinglistcompose2023.ui.theme.GrayLight
@@ -27,7 +28,7 @@ import com.kenig.shoppinglistcompose2023.utils.UiEvent
 @Composable
 fun NewNoteScreen(
     viewModel: NewNoteViewModel = hiltViewModel(),
-    onPopBackStack: () -> Unit
+    onPopBackStack: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
 
@@ -96,7 +97,9 @@ fun NewNoteScreen(
                             textStyle = TextStyle(
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = DarkText
+                                color = Color(
+                                    android.graphics.Color.parseColor(viewModel.titleColor.value)
+                                )
                             )
                         )
                         IconButton(

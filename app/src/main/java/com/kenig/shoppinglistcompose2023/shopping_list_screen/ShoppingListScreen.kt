@@ -47,7 +47,7 @@ fun ShoppingListScreen(
         contentPadding = PaddingValues(bottom = 50.dp)
     ) {
         items(itemsList.value) { items ->
-            UiShoppingListItem(items) { event ->
+            UiShoppingListItem(viewModel.titleColor.value, items) { event ->
                 viewModel.onEvent(event)
             }
         }

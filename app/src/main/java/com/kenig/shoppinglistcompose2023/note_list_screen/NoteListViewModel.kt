@@ -3,12 +3,11 @@ package com.kenig.shoppinglistcompose2023.note_list_screen
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.data.NoteItem
 import com.kenig.shoppinglistcompose2023.data.NoteRepository
+import com.kenig.shoppinglistcompose2023.datastore.DataStoreManager
 import com.kenig.shoppinglistcompose2023.dialog.DialogController
 import com.kenig.shoppinglistcompose2023.dialog.DialogEvent
-import com.kenig.shoppinglistcompose2023.shopping_list_screen.ShoppingListEvent
 import com.kenig.shoppinglistcompose2023.utils.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -18,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoteListViewModel @Inject constructor(
-    private val repository: NoteRepository
+    private val repository: NoteRepository,
+    dataStoreManager: DataStoreManager
 ) : ViewModel(), DialogController {
 
     val noteList = repository.getAllItems()
@@ -26,6 +26,8 @@ class NoteListViewModel @Inject constructor(
 
     private val _uiEvent = Channel<UiEvent>() //передатчик класса UiEvent() через Channel
     val uiEvent = _uiEvent.receiveAsFlow() //приёмник UiEvent
+
+    var titleColor = mutableStateOf("#FF000000")
 
     override var dialogTitle = mutableStateOf("Delete this note?") /////изменить в ресурсах!!!
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
@@ -35,6 +37,17 @@ class NoteListViewModel @Inject constructor(
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
     override var showEditableText = mutableStateOf(false)
         private set //могу записать/изменить только в этом классе, а считать (get) в любом
+
+    init {
+        viewModelScope.launch {
+            dataStoreManager.getStringPreference(
+                DataStoreManager.TITLE_COLOR,
+                "#FF000000"
+            ).collect { color ->
+                titleColor.value = color
+            }
+        }
+    }
 
     override fun onDialogEvent(event: DialogEvent) { //события Диалога на экране ShoppingListScreen
         when (event) {
