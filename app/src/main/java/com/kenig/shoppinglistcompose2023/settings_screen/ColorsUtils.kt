@@ -1,5 +1,8 @@
 package com.kenig.shoppinglistcompose2023.settings_screen
 
+import androidx.compose.ui.graphics.Color
+import com.kenig.shoppinglistcompose2023.ui.theme.*
+
 object ColorsUtils {
     val colorsList = listOf(
         "#FF000000",
@@ -19,4 +22,13 @@ object ColorsUtils {
         "#FFFF6D00",
         "#FFDD2C00"
     )
+
+    fun getProgressColor(progress: Float): Color {
+        return when (progress) {
+            in 0.0..0.339 -> RedProgress
+            in 0.34..0.669 -> OrangeProgress
+            in 0.67..1.0 -> GreenProgress
+            else -> Color.Black
+        }
+    }
 }

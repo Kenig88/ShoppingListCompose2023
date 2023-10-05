@@ -17,7 +17,7 @@ import com.kenig.shoppinglistcompose2023.ui.theme.LightText
 
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val list = viewModel.colorItemListState.value
 
