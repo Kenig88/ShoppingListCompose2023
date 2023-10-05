@@ -37,7 +37,7 @@ fun UiShoppingListItem(
     )
 
     ConstraintLayout(
-        modifier = Modifier.padding(start = 3.dp, end = 3.dp, top = 1.dp) // top!!??????
+        modifier = Modifier.padding(start = 5.dp, end = 5.dp) // top!!??????
     ) {
         val (card, counter, editButton, deleteButton) = createRefs()
 
