@@ -14,5 +14,7 @@
     <string name="snackbar_not_empty">Title can not be empty!</string>
     <string name="snackbar_undone">Undone</string>
     <string name="settings_title_color">Title color</string>
-    <string name="settings_description_color">Select a title color:</string>
+    <string name="settings_select_title_color">Select a title color:</string>
+    <string name="settings_description_color">Description color</string>
+    <string name="settings_select_description_color">Select a description color:</string>
 </resources>

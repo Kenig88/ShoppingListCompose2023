@@ -16,9 +16,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.graphics.ColorUtils
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kenig.shoppinglistcompose2023.R
 import com.kenig.shoppinglistcompose2023.data.ShoppingListItem
+import com.kenig.shoppinglistcompose2023.settings_screen.ColorsUtils
 import com.kenig.shoppinglistcompose2023.ui.theme.*
 import com.kenig.shoppinglistcompose2023.utils.ProgressHelper
 import com.kenig.shoppinglistcompose2023.utils.Routes
@@ -29,6 +31,11 @@ fun UiShoppingListItem(
     item: ShoppingListItem,
     onEvent: (ShoppingListEvent) -> Unit,
 ) {
+    val progress = ProgressHelper.getProgress(
+        item.allItemsCount,
+        item.allSelectedItemsCount
+    )
+
     ConstraintLayout(
         modifier = Modifier.padding(start = 3.dp, end = 3.dp, top = 1.dp) // top!!??????
     ) {
@@ -74,10 +81,8 @@ fun UiShoppingListItem(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 5.dp), //либо использовать Spacer над прогресс-баром
-                    progress = ProgressHelper.getProgress(
-                        item.allItemsCount,
-                        item.allSelectedItemsCount
-                    )
+                    progress = progress,
+                    color = ColorsUtils.getProgressColor(progress)
                 )
             }
         }
