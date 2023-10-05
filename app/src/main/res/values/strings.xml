@@ -17,4 +17,5 @@
     <string name="settings_select_title_color">Select a title color:</string>
     <string name="settings_description_color">Description color</string>
     <string name="settings_select_description_color">Select a description color:</string>
+    <string name="note_list_search">Note search:</string>
 </resources>

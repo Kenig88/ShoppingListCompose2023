@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kenig.shoppinglistcompose2023.R
-import com.kenig.shoppinglistcompose2023.datastore.DataStoreManager
 import com.kenig.shoppinglistcompose2023.ui.theme.BlueLight
 import com.kenig.shoppinglistcompose2023.ui.theme.DarkText
 import com.kenig.shoppinglistcompose2023.ui.theme.GrayLight
@@ -84,9 +83,7 @@ fun NewNoteScreen(
                                 viewModel.onEvent(NewNoteEvent.OnTitleChange(text))
                             },
                             label = {
-                                Text(
-                                    text = stringResource(R.string.text_field_title)
-                                )
+                                Text(text = stringResource(R.string.text_field_title))
                             },
                             singleLine = true,
                             colors = TextFieldDefaults.textFieldColors(

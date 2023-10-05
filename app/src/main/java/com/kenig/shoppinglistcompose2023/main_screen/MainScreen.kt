@@ -19,7 +19,6 @@ import com.kenig.shoppinglistcompose2023.dialog.MainDialog
 import com.kenig.shoppinglistcompose2023.navigation.NavigationGraph
 import com.kenig.shoppinglistcompose2023.utils.Routes
 import com.kenig.shoppinglistcompose2023.utils.UiEvent
-import kotlinx.coroutines.flow.collect
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
