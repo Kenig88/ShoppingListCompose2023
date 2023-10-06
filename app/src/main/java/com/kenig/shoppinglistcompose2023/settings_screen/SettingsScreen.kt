@@ -49,31 +49,5 @@ fun SettingsScreen(
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-        Column {
-            Text(
-                text = stringResource(R.string.settings_description_color),
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = stringResource(R.string.settings_select_description_color),
-                fontSize = 18.sp,
-                color = LightText
-            )
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)
-            ) {
-                items(list) { item ->
-                    UiColorItem(item) { event ->
-                        viewModel.onEvent(event)
-                    }
-                }
-            }
-        }
     }
 }
